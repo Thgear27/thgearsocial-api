@@ -1,5 +1,5 @@
 import { database } from "../../config/database.js";
-import { DataTypes } from "sequelize";
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 
 // CREATE TABLE Likes
 // (
@@ -12,8 +12,14 @@ import { DataTypes } from "sequelize";
 //     UNIQUE (id_user, id_post)
 // );
 
-export const Like = database.define(
-  "Like",
+export class Like extends Model<InferAttributes<Like>, InferCreationAttributes<Like>> {
+  declare id_like: CreationOptional<number>;
+  declare id_user: number;
+  declare id_post: number;
+  declare created_at: CreationOptional<Date>;
+}
+
+Like.init(
   {
     id_like: {
       type: DataTypes.INTEGER,
@@ -35,6 +41,8 @@ export const Like = database.define(
     },
   },
   {
+    sequelize: database,
     timestamps: false,
+    tableName: "Like",
   }
 );

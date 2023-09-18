@@ -22,8 +22,6 @@ export class User extends Model<InferAttributes<User>,  InferCreationAttributes<
   declare followers_count: CreationOptional<number>;
   declare posts_count: CreationOptional<number>;
 
-  declare getPosts: HasManyGetAssociationsMixin<Post>;
-
   declare static associations: {
     actual_posts: Association<User, Post>;
   };
@@ -79,14 +77,3 @@ User.init(
     timestamps: false,
   }
 );
-
-User.hasMany(Post, {
-  sourceKey: "id_user",
-  foreignKey: "id_user",
-  as: "actual_posts",
-});
-
-// Post.belongsTo(User, {
-//   targetKey: "id_user",
-// });
-

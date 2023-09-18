@@ -1,5 +1,5 @@
 import { database } from "../../config/database.js";
-import { DataTypes } from "sequelize";
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 
 // CREATE TABLE Comments
 // (
@@ -12,9 +12,15 @@ import { DataTypes } from "sequelize";
 //     FOREIGN KEY (id_post) REFERENCES Posts (id_post),
 //     FOREIGN KEY (id_response) REFERENCES Comments (id_comment)
 // );
+export class PostComment extends Model<InferAttributes<PostComment>, InferCreationAttributes<PostComment>> {
+  declare id_comment: CreationOptional<number>;
+  declare body: string;
+  declare id_user: number;
+  declare id_post: CreationOptional<number>;
+  declare id_response: CreationOptional<number>;
+}
 
-export const Comment = database.define(
-  "Comment",
+PostComment.init(
   {
     id_comment: {
       type: DataTypes.INTEGER,
@@ -37,6 +43,8 @@ export const Comment = database.define(
     },
   },
   {
+    sequelize: database,
     timestamps: false,
+    tableName: "Comment",
   }
 );
